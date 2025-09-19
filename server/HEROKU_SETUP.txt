@@ -1,0 +1,14 @@
+IMPORTANT: Before deploying to Heroku
+
+1. After creating your Heroku app, update the URL in appcast.xml:
+   - Open server/updates/appcast.xml
+   - Replace "http://localhost:8000" with "https://your-app-name.herokuapp.com"
+   - Example: <enclosure url="https://your-app-name.herokuapp.com/AppleAI-1.1.2.zip" ... />
+
+2. Deploy to Heroku using the instructions in README.md
+
+3. Test your update server by visiting:
+   - https://your-app-name.herokuapp.com/
+   - https://your-app-name.herokuapp.com/appcast.xml
+
+4. Update your app to use the new update URL by modifying the URL in your app's update manager. 

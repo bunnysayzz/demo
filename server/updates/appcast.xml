@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel>
+        <title>AppleAI Updates</title>
+        <description>Most recent updates to AppleAI</description>
+        <language>en</language>
+        <item>
+            <title>Version 2.1.7</title>
+            <description>
+                <![CDATA[
+                    <h2>New in AppleAI 2.1.7</h2>
+                    <ul>
+                        <li>Improved update system reliability</li>
+                        <li>Added countdown timer after update installation</li>
+                        <li>Bug fixes and stability improvements</li>
+                    </ul>
+                ]]>
+            </description>
+            <pubDate>Tue, 29 Jul 2025 14:00:00 +0000</pubDate>
+            <enclosure 
+                url="https://apple-ai-2852466c27b9.herokuapp.com/AppleAI-2.1.7.zip" 
+                sparkle:version="2.1.7" 
+                sparkle:shortVersionString="2.1.7" 
+                length="3346937" 
+                type="application/octet-stream" 
+            />
+        </item>
+    </channel>
+</rss>
