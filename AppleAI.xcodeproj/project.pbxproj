@@ -23,6 +23,11 @@
 		6A10021E2B9CD4F000057C36 /* GeminiAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A10021D2B9CD4F000057C36 /* GeminiAPIManager.swift */; };
 		6A10021E2B9CD4FA00057C36 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A10021D2B9CD4FA00057C36 /* Assets.xcassets */; };
 		6A1002202B9CD51F00057C36 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A10021F2B9CD51F00057C36 /* Info.plist */; };
+		6A1002212B9CD52000057C36 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1002202B9CD52000057C36 /* ThemeManager.swift */; };
+		6A1002222B9CD52100057C36 /* ModernButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1002212B9CD52100057C36 /* ModernButton.swift */; };
+		6A1002232B9CD52200057C36 /* ModernCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1002222B9CD52200057C36 /* ModernCard.swift */; };
+		6A1002242B9CD52300057C36 /* PersistentWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1002232B9CD52300057C36 /* PersistentWebView.swift */; };
+		6A1002252B9CD52400057C36 /* EnhancedPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1002242B9CD52400057C36 /* EnhancedPreferencesView.swift */; };
 
 /* End PBXBuildFile section */
 
@@ -45,6 +50,11 @@
 		6A10021D2B9CD4F000057C36 /* GeminiAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiAPIManager.swift; sourceTree = "<group>"; };
 		6A10021D2B9CD4FA00057C36 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6A10021F2B9CD51F00057C36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6A1002202B9CD52000057C36 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
+		6A1002212B9CD52100057C36 /* ModernButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernButton.swift; sourceTree = "<group>"; };
+		6A1002222B9CD52200057C36 /* ModernCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernCard.swift; sourceTree = "<group>"; };
+		6A1002232B9CD52300057C36 /* PersistentWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentWebView.swift; sourceTree = "<group>"; };
+		6A1002242B9CD52400057C36 /* EnhancedPreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnhancedPreferencesView.swift; sourceTree = "<group>"; };
 		EC4174799D313929A01F7B43 /* TitleBarView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TitleBarView.swift; path = AppleAI/Views/TitleBarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 

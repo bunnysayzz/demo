@@ -62,6 +62,7 @@ struct CompactChatView: View {
     @State private var selectedService: AIService
     @State private var isLoading = true
     @StateObject private var preferences = PreferencesManager.shared
+    @StateObject private var theme = ThemeManager.shared
     @State private var showToast = false
     
     let services: [AIService]
@@ -96,39 +97,11 @@ struct CompactChatView: View {
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
-                // Header with adaptive service selector icons
-                HStack(spacing: 0) {
-                    // Horizontal icons for service selection - with better spacing
-                    HStack(spacing: 2) { // Small consistent spacing between buttons
-                        ForEach(visibleServices) { service in
-                            AdaptiveServiceIconButton(
-                                service: service,
-                                isSelected: service.id == selectedService.id,
-                                totalVisible: visibleServices.count,
-                                action: {
-                                    withAnimation(.easeInOut(duration: 0.2)) {
-                                        selectedService = service
-                                    }
-                                    // When service changes, ensure we refocus the webview after a short delay
-                                    ensureWebViewFocus(delay: 0.5)
-                                }
-                            )
-                            .id(service.id) // Ensure ForEach updates properly
-                        }
-                    }
-                    .padding(.horizontal, 6) // Increased horizontal padding
-                    
-                    Spacer()
-                    
-                    // Pin button removed - now in title bar
-                }
-                .padding(.vertical, 8) // Increased vertical padding
-                .background(Color(NSColor.windowBackgroundColor))
+                // Enhanced header with theme-aware styling
+                headerView
                 
-                // Service indicator bar
-                Rectangle()
-                    .frame(height: 2)
-                    .foregroundColor(selectedService.color)
+                // Service indicator bar with smooth animation
+                serviceIndicatorBar
                 
                 // Web view for the selected service with focus handling
                 PersistentWebView(service: selectedService, isLoading: $isLoading)
@@ -136,45 +109,130 @@ struct CompactChatView: View {
                         // When web view appears, set up a delayed action to focus the view
                         ensureWebViewFocus(delay: 0.5)
                     }))
+                    .overlay(
+                        // Loading indicator
+                        loadingOverlay,
+                        alignment: .center
+                    )
             }
             
-            // Overlay the toast notification on top of everything
+            // Enhanced toast notification
             ChatToastView(
                 message: "Screenshot copied! Please paste it in your favorite AI",
                 isShowing: $showToast
             )
         }
         .frame(width: 400, height: 600)
+        .themeBackground(.primary)
+        .themeAware()
         .onAppear {
-            // Set up periodic focus checks
-            setupPeriodicFocusCheck()
-            // Ensure focus immediately
-            ensureWebViewFocus(delay: 0.2)
-            
-            // Add observer for screenshot notifications
-            NotificationCenter.default.addObserver(
-                forName: Notification.Name("ScreenshotTaken"),
-                object: nil,
-                queue: .main
-            ) { [self] _ in
-                // Show the toast
-                withAnimation {
-                    self.showToast = true
-                }
-            }
+            setupView()
         }
         .onDisappear {
-            // Remove the observer when the view disappears
-            NotificationCenter.default.removeObserver(
-                self,
-                name: Notification.Name("ScreenshotTaken"),
-                object: nil
-            )
+            cleanupView()
         }
         // Add observer for model visibility changes
         .onReceive(NotificationCenter.default.publisher(for: Notification.Name("ModelVisibilityChanged"))) { _ in
-            // If the currently selected service is now hidden, switch to the first visible one
-            if !preferences.isModelVisible(selectedService.name), let firstVisible = visibleServices.first {
+            handleModelVisibilityChange()
+        }
+    }
+    
+    // MARK: - View Components
+    
+    private var headerView: some View {
+        HStack(spacing: 0) {
+            // Service selection buttons with enhanced styling
+            HStack(spacing: 4) {
+                ForEach(visibleServices) { service in
+                    EnhancedServiceButton(
+                        service: service,
+                        isSelected: service.id == selectedService.id,
+                        totalVisible: visibleServices.count
+                    ) {
+                        selectService(service)
+                    }
+                }
+            }
+            .padding(.horizontal, 12)
+            
+            Spacer()
+            
+            // Loading indicator in header
+            if isLoading {
+                ThemeLoadingIndicator(size: 16, lineWidth: 2)
+                    .padding(.trailing, 12)
+            }
+        }
+        .padding(.vertical, 12)
+        .themeBackground(.secondary)
+    }
+    
+    private var serviceIndicatorBar: some View {
+        Rectangle()
+            .fill(selectedService.color)
+            .frame(height: 3)
+            .animation(theme.standardSpringAnimation, value: selectedService.id)
+    }
+    
+    @ViewBuilder
+    private var loadingOverlay: some View {
+        if isLoading {
+            VStack(spacing: 16) {
+                ThemeLoadingIndicator(size: 32, lineWidth: 3)
+                
+                Text("Loading \(selectedService.name)...")
+                    .font(.system(size: 14, weight: .medium))
+                    .themeForegroundColor(.secondary)
+            }
+            .padding(24)
+            .themeBackground(.secondary)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+        }
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func setupView() {
+        // Set up periodic focus checks
+        setupPeriodicFocusCheck()
+        // Ensure focus immediately
+        ensureWebViewFocus(delay: 0.2)
+        
+        // Add observer for screenshot notifications
+        NotificationCenter.default.addObserver(
+            forName: Notification.Name("ScreenshotTaken"),
+            object: nil,
+            queue: .main
+        ) { [self] _ in
+            // Show the toast
+            withAnimation(theme.standardSpringAnimation) {
+                self.showToast = true
+            }
+        }
+    }
+    
+    private func cleanupView() {
+        // Remove the observer when the view disappears
+        NotificationCenter.default.removeObserver(
+            self,
+            name: Notification.Name("ScreenshotTaken"),
+            object: nil
+        )
+    }
+    
+    private func selectService(_ service: AIService) {
+        withAnimation(theme.standardSpringAnimation) {
+            selectedService = service
+        }
+        // When service changes, ensure we refocus the webview after a short delay
+        ensureWebViewFocus(delay: 0.5)
+    }
+    
+    private func handleModelVisibilityChange() {
+        // If the currently selected service is now hidden, switch to the first visible one
+        if !preferences.isModelVisible(selectedService.name), let firstVisible = visibleServices.first {
+            withAnimation(theme.standardSpringAnimation) {
                 selectedService = firstVisible
             }
         }
@@ -260,6 +318,103 @@ struct CompactChatView: View {
         
         if let window = webView.window {
             window.makeFirstResponder(webView)
+        }
+    }
+}
+
+// Enhanced service button with theme integration
+struct EnhancedServiceButton: View {
+    let service: AIService
+    let isSelected: Bool
+    let totalVisible: Int
+    let action: () -> Void
+    
+    @State private var isHovered = false
+    @StateObject private var theme = ThemeManager.shared
+    
+    // Calculate adaptive sizing based on number of visible services
+    private var buttonWidth: CGFloat {
+        let containerWidth: CGFloat = 376 // Adjusted for new padding
+        let spacing: CGFloat = 4
+        let availableWidth = containerWidth - (spacing * CGFloat(totalVisible - 1))
+        let calculatedWidth = availableWidth / CGFloat(totalVisible)
+        return min(max(calculatedWidth, 40), 80)
+    }
+    
+    private var iconSize: CGFloat {
+        if totalVisible <= 3 { return 24 }
+        else if totalVisible <= 6 { return 20 }
+        else { return 18 }
+    }
+    
+    private var fontSize: CGFloat {
+        if totalVisible <= 3 { return 12 }
+        else if totalVisible <= 6 { return 10 }
+        else { return 9 }
+    }
+    
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 4) {
+                Image(service.icon)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: iconSize, height: iconSize)
+                    .foregroundColor(iconColor)
+                
+                Text(service.name)
+                    .font(.system(size: fontSize, weight: isSelected ? .semibold : .medium))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+                    .foregroundColor(textColor)
+            }
+            .frame(width: buttonWidth, height: 50)
+            .background(backgroundColor)
+            .overlay(borderOverlay)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .scaleEffect(isHovered ? 1.05 : 1.0)
+            .animation(theme.fastSpringAnimation, value: isHovered)
+            .animation(theme.standardSpringAnimation, value: isSelected)
+        }
+        .buttonStyle(PlainButtonStyle())
+        .onHover { hovering in
+            withAnimation(theme.fastSpringAnimation) {
+                isHovered = hovering
+            }
+        }
+    }
+    
+    private var iconColor: Color {
+        if isSelected {
+            return service.color
+        } else {
+            return isHovered ? service.color.opacity(0.8) : theme.secondaryTextColor
+        }
+    }
+    
+    private var textColor: Color {
+        if isSelected {
+            return service.color
+        } else {
+            return isHovered ? theme.primaryTextColor : theme.secondaryTextColor
+        }
+    }
+    
+    private var backgroundColor: Color {
+        if isSelected {
+            return service.color.opacity(0.15)
+        } else if isHovered {
+            return theme.secondaryBackgroundColor.opacity(0.8)
+        } else {
+            return Color.clear
+        }
+    }
+    
+    @ViewBuilder
+    private var borderOverlay: some View {
+        if isSelected {
+            RoundedRectangle(cornerRadius: 8)
+                .stroke(service.color.opacity(0.3), lineWidth: 1)
         }
     }
 }

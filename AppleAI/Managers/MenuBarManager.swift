@@ -819,10 +819,10 @@ class MenuBarManager: NSObject, NSMenuDelegate, NSWindowDelegate {
             return
         }
         
-        // Create a new window with non-standard close behavior
+        // Create a new window with enhanced styling
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 520, height: 420),
-            styleMask: [.titled, .closable],
+            contentRect: NSRect(x: 0, y: 0, width: 680, height: 520),
+            styleMask: [.titled, .closable, .miniaturizable],
             backing: .buffered,
             defer: false
         )
@@ -830,9 +830,17 @@ class MenuBarManager: NSObject, NSMenuDelegate, NSWindowDelegate {
         // Important: Set this to false to prevent the window from being deallocated when closed
         window.isReleasedWhenClosed = false
         
-        window.title = "Preferences"
-        window.contentView = NSHostingView(rootView: PreferencesView())
+        window.title = "Apple AI Preferences"
+        window.contentView = NSHostingView(rootView: EnhancedPreferencesView())
         window.center()
+        window.titlebarAppearsTransparent = true
+        window.titleVisibility = .hidden
+        
+        // Apply theme-aware styling
+        if let appearance = NSAppearance(named: ThemeManager.shared.effectiveAppearance) {
+            window.appearance = appearance
+        }
+        
         window.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
         
