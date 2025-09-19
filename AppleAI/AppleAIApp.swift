@@ -8,9 +8,23 @@ import UserNotifications
 struct AppleAIApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
+    init() {
+        // Initialize theme manager early
+        _ = ThemeManager.shared
+    }
+    
     var body: some Scene {
         Settings {
             EmptyView()
+        }
+        .commands {
+            // Add custom menu commands
+            CommandGroup(replacing: .appSettings) {
+                Button("Preferences...") {
+                    appDelegate.showPreferences()
+                }
+                .keyboardShortcut(",", modifiers: .command)
+            }
         }
     }
 }
@@ -80,19 +94,26 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, UNUserNoti
     
     @objc func showPreferences() {
         if preferencesWindow == nil {
-            let contentView = PreferencesView()
-                .frame(width: 520, height: 420)
+            let contentView = EnhancedPreferencesView()
+                .frame(width: 680, height: 520)
             
             preferencesWindow = NSWindow(
-                contentRect: NSRect(x: 0, y: 0, width: 520, height: 420),
-                styleMask: [.titled, .closable],
+                contentRect: NSRect(x: 0, y: 0, width: 680, height: 520),
+                styleMask: [.titled, .closable, .miniaturizable],
                 backing: .buffered,
                 defer: false
             )
-            preferencesWindow?.title = "Preferences"
+            preferencesWindow?.title = "Apple AI Preferences"
             preferencesWindow?.center()
             preferencesWindow?.contentView = NSHostingView(rootView: contentView)
             preferencesWindow?.isReleasedWhenClosed = false
+            preferencesWindow?.titlebarAppearsTransparent = true
+            preferencesWindow?.titleVisibility = .hidden
+            
+            // Apply theme-aware styling
+            if let appearance = NSAppearance(named: ThemeManager.shared.effectiveAppearance) {
+                preferencesWindow?.appearance = appearance
+            }
         }
         
         preferencesWindow?.makeKeyAndOrderFront(nil)
