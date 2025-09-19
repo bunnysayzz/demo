@@ -1,0 +1,87 @@
+name: Build APK
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+      
+    - name: Cache Gradle packages
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+          
+    - name: Make gradlew executable
+      run: chmod +x gradlew
+      
+    - name: Build Debug APK
+      run: ./gradlew assembleDebug
+      
+    - name: Upload APK artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ai-assistant-pro-debug
+        path: app/build/outputs/apk/debug/*.apk
+        
+    - name: Create Release APK (on tags)
+      if: startsWith(github.ref, 'refs/tags/v')
+      run: |
+        ./gradlew assembleRelease
+        mkdir -p releases
+        cp app/build/outputs/apk/release/*.apk releases/
+        
+    - name: Create GitHub Release
+      if: startsWith(github.ref, 'refs/tags/v')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          releases/*.apk
+          releases/*.zip
+        body: |
+          ## 🎉 AI Assistant Pro Android Release
+          
+          ### What's New
+          - 14 AI assistants in one beautiful app
+          - Material Design 3 with dynamic theming
+          - Floating window for multitasking
+          - Privacy-first approach with local storage
+          
+          ### Installation
+          1. Download the APK file below
+          2. Enable "Install from Unknown Sources" in Android settings
+          3. Install and grant permissions
+          4. Launch and enjoy!
+          
+          ### Requirements
+          - Android 8.0+ (API 26)
+          - Internet connection for AI services
+          - 100MB storage space
+          
+          See [Installation Guide](INSTALLATION.md) for detailed instructions.
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

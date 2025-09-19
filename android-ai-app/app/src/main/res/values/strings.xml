@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AI Assistant Pro</string>
+    <string name="quick_tile_label">AI Assistant</string>
+    
+    <!-- General -->
+    <string name="loading">Loading…</string>
+    <string name="error">Error</string>
+    <string name="retry">Retry</string>
+    <string name="close">Close</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="settings">Settings</string>
+    
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_chat">Chat</string>
+    <string name="nav_settings">Settings</string>
+    
+    <!-- Home Screen -->
+    <string name="home_title">AI Assistant Pro</string>
+    <string name="home_subtitle">Access multiple AI assistants in one beautiful app</string>
+    <string name="choose_assistant">Choose Your AI Assistant</string>
+    <string name="quick_actions">Quick Actions</string>
+    <string name="floating_window">Floating Window</string>
+    <string name="floating_window_desc">Quick access anywhere</string>
+    <string name="floating_window_permission_required">Requires permission</string>
+    <string name="no_models_enabled">No AI Models Enabled</string>
+    <string name="enable_models_desc">Enable some AI models in settings to get started</string>
+    <string name="open_settings">Open Settings</string>
+    
+    <!-- Chat Screen -->
+    <string name="switch_service">Switch Service</string>
+    <string name="upload_file">Upload File</string>
+    <string name="more_options">More Options</string>
+    <string name="voice_support">Voice support</string>
+    <string name="file_upload_support">File upload support</string>
+    <string name="connection_error">Connection Error</string>
+    <string name="failed_to_load_service">Failed to load %1$s</string>
+    <string name="select_ai_assistant">Select AI Assistant</string>
+    
+    <!-- Settings Screen -->
+    <string name="settings_general">General</string>
+    <string name="settings_models">AI Models</string>
+    <string name="settings_features">Features</string>
+    <string name="settings_api_keys">API Keys</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_privacy">Privacy</string>
+    <string name="settings_about">About</string>
+    
+    <!-- General Settings -->
+    <string name="always_on_top">Always on Top</string>
+    <string name="always_on_top_desc">Keep the app window above other apps</string>
+    <string name="floating_window_setting">Floating Window</string>
+    <string name="floating_window_setting_desc">Show AI assistant in a floating window</string>
+    <string name="auto_start_floating">Auto Start Floating Window</string>
+    <string name="auto_start_floating_desc">Automatically show floating window on app start</string>
+    <string name="quick_settings_tile">Quick Settings Tile</string>
+    <string name="quick_settings_tile_desc">Add tile to Quick Settings panel</string>
+    
+    <!-- Features -->
+    <string name="voice_input">Voice Input</string>
+    <string name="voice_input_desc">Enable voice input for supported AI services</string>
+    <string name="file_upload">File Upload</string>
+    <string name="file_upload_desc">Allow file uploads to AI services</string>
+    <string name="screenshot_capture">Screenshot Capture</string>
+    <string name="screenshot_capture_desc">Enable screenshot capture functionality</string>
+    <string name="notifications">Notifications</string>
+    <string name="notifications_desc">Show notifications for important events</string>
+    
+    <!-- Appearance -->
+    <string name="theme">Theme</string>
+    <string name="theme_desc">Choose your preferred theme</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_system">System</string>
+    <string name="dynamic_color">Dynamic Color</string>
+    <string name="dynamic_color_desc">Use system accent color (Android 12+)</string>
+    
+    <!-- API Keys -->
+    <string name="api_keys_info">API keys are stored securely on your device</string>
+    <string name="gemini_api_key">Gemini API Key</string>
+    <string name="openai_api_key">OpenAI API Key</string>
+    <string name="anthropic_api_key">Anthropic API Key</string>
+    <string name="enter_gemini_key">Enter your Gemini API key</string>
+    <string name="enter_openai_key">Enter your OpenAI API key</string>
+    <string name="enter_anthropic_key">Enter your Anthropic API key</string>
+    <string name="get_gemini_key">Get your key from ai.google.dev</string>
+    <string name="get_openai_key">Get your key from platform.openai.com</string>
+    <string name="get_anthropic_key">Get your key from console.anthropic.com</string>
+    
+    <!-- Privacy -->
+    <string name="analytics">Analytics</string>
+    <string name="analytics_desc">Help improve the app by sharing usage data</string>
+    <string name="privacy_first">Privacy First</string>
+    <string name="privacy_notice">We don\'t collect your chats or personal data. All AI interactions go directly to the respective service providers.</string>
+    
+    <!-- About -->
+    <string name="app_version">Version %1$s</string>
+    <string name="github">GitHub</string>
+    <string name="github_desc">View source code and contribute</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="privacy_policy_desc">Read our privacy policy</string>
+    <string name="terms_of_service">Terms of Service</string>
+    <string name="terms_of_service_desc">Read our terms of service</string>
+    
+    <!-- AI Services -->
+    <string name="chatgpt">ChatGPT</string>
+    <string name="claude">Claude</string>
+    <string name="copilot">GitHub Copilot</string>
+    <string name="perplexity">Perplexity AI</string>
+    <string name="deepseek">DeepSeek</string>
+    <string name="grok">Grok</string>
+    <string name="mistral">Mistral AI</string>
+    <string name="gemini">Google Gemini</string>
+    <string name="pi">Pi AI</string>
+    <string name="blackbox">Blackbox AI</string>
+    <string name="meta">Meta AI</string>
+    <string name="zhipu">Zhipu AI</string>
+    <string name="mcp_chat">MCP Chat</string>
+    <string name="ask_apple_ai">Ask Apple AI</string>
+    
+    <!-- Service Descriptions -->
+    <string name="chatgpt_desc">OpenAI\'s conversational AI assistant</string>
+    <string name="claude_desc">Anthropic\'s helpful, harmless, and honest AI assistant</string>
+    <string name="copilot_desc">Microsoft\'s AI-powered coding assistant</string>
+    <string name="perplexity_desc">AI-powered search and research assistant</string>
+    <string name="deepseek_desc">Advanced AI model for coding and reasoning</string>
+    <string name="grok_desc">xAI\'s witty and rebellious AI assistant</string>
+    <string name="mistral_desc">European AI assistant focused on efficiency</string>
+    <string name="gemini_desc">Google\'s most capable AI model</string>
+    <string name="pi_desc">Personal AI companion by Inflection AI</string>
+    <string name="blackbox_desc">AI coding assistant for developers</string>
+    <string name="meta_desc">Meta\'s AI assistant powered by Llama</string>
+    <string name="zhipu_desc">Chinese AI model with strong reasoning capabilities</string>
+    <string name="mcp_chat_desc">Model Context Protocol enabled chat interface</string>
+    <string name="ask_apple_ai_desc">Custom AI service integration</string>
+    
+    <!-- Permissions -->
+    <string name="permission_overlay_title">Overlay Permission Required</string>
+    <string name="permission_overlay_message">To show the floating window, please grant overlay permission in the next screen.</string>
+    <string name="permission_overlay_grant">Grant Permission</string>
+    <string name="permission_overlay_denied">Permission Denied</string>
+    <string name="permission_overlay_denied_message">Overlay permission is required for floating window functionality.</string>
+    
+    <!-- Floating Window -->
+    <string name="floating_window_notification_title">AI Assistant Pro</string>
+    <string name="floating_window_notification_text">Floating window is active</string>
+    <string name="minimize">Minimize</string>
+    <string name="expand">Expand AI Assistant</string>
+    
+    <!-- Quick Settings Tile -->
+    <string name="tile_active_desc">AI Assistant is active - tap to close</string>
+    <string name="tile_inactive_desc">AI Assistant - tap to open floating window</string>
+    
+    <!-- Error Messages -->
+    <string name="error_no_internet">No internet connection</string>
+    <string name="error_overlay_permission">Overlay permission required</string>
+    <string name="error_failed_to_load">Failed to load content</string>
+    <string name="error_service_unavailable">Service temporarily unavailable</string>
+    
+    <!-- Features -->
+    <string name="conversation">Conversation</string>
+    <string name="code_generation">Code Generation</string>
+    <string name="writing">Writing</string>
+    <string name="analysis">Analysis</string>
+    <string name="voice_chat">Voice Chat</string>
+    <string name="web_search">Web Search</string>
+    <string name="research">Research</string>
+    <string name="citations">Citations</string>
+    <string name="real_time_info">Real-time Information</string>
+    <string name="math">Math</string>
+    <string name="reasoning">Reasoning</string>
+    <string name="problem_solving">Problem Solving</string>
+    <string name="humor">Humor</string>
+    <string name="uncensored">Uncensored</string>
+    <string name="multilingual">Multilingual</string>
+    <string name="efficient">Efficient</string>
+    <string name="privacy_focused">Privacy-focused</string>
+    <string name="multimodal">Multimodal</string>
+    <string name="creative">Creative</string>
+    <string name="integration">Integration</string>
+    <string name="personal_assistant">Personal Assistant</string>
+    <string name="emotional_support">Emotional Support</string>
+    <string name="code_search">Code Search</string>
+    <string name="real_time_coding">Real-time Coding</string>
+    <string name="image_generation">Image Generation</string>
+    <string name="creative_writing">Creative Writing</string>
+    <string name="chinese_language_expert">Chinese Language Expert</string>
+    <string name="protocol_integration">Protocol Integration</string>
+    <string name="advanced_context">Advanced Context</string>
+    <string name="tool_integration">Tool Integration</string>
+    <string name="custom_integration">Custom Integration</string>
+    <string name="api_access">API Access</string>
+    
+    <!-- Actions -->
+    <string name="reset_all">Reset All</string>
+    <string name="take_screenshot">Take Screenshot</string>
+    <string name="toggle_floating_window">Toggle Floating Window</string>
+    <string name="more_actions">More Actions</string>
+    <string name="show">Show</string>
+    <string name="hide">Hide</string>
+    <string name="apply">Apply</string>
+    <string name="clear">Clear</string>
+    <string name="copy">Copy</string>
+    <string name="paste">Paste</string>
+    <string name="select_all">Select All</string>
+    <string name="undo">Undo</string>
+    <string name="redo">Redo</string>
+    <string name="refresh">Refresh</string>
+    <string name="reload">Reload</string>
+    <string name="go_back">Go Back</string>
+    <string name="go_forward">Go Forward</string>
+</resources>
