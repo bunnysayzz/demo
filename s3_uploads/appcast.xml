@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel>
+        <title>Apple AI Changelog</title>
+        <description>Most recent changes with links to updates</description>
+        <language>en</language>
+        <item>
+            <title>Version 1.1.1</title>
+            <description>
+                <![CDATA[
+                    <h2>New Features in 1.1.1:</h2>
+                    <ul>
+                        <li>Enhanced update system with improved reliability</li>
+                        <li>Real-time update progress tracking</li>
+                        <li>Better error handling and retry mechanism</li>
+                        <li>Fixed version verification issues</li>
+                        <li>Improved UI responsiveness</li>
+                    </ul>
+                ]]>
+            </description>
+            <pubDate>Mon, 10 Jun 2025 12:00:00 +0000</pubDate>
+            <enclosure
+                url="https://appleai-updates.s3.us-east-1.amazonaws.com/AppleAI-1.1.1.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA4EWOGMJBW5O3HTBK%2F20250610%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250610T164740Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=254f572bf87eff18bcce44bbcfd1fbccf87c0e5489aef8a021d73de0db30ffcf"
+                sparkle:version="1.1.1"
+                sparkle:shortVersionString="1.1.1"
+                length="2960268"
+                type="application/octet-stream"
+            />
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+        </item>
+    </channel>
+</rss>

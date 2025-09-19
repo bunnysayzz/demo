@@ -3,7 +3,6 @@ import SwiftUI
 import WebKit
 import Combine
 import AVFoundation
-import Network
 
 // Global WebView cache to store and reuse webviews
 class WebViewCache: NSObject, ObservableObject, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler {
@@ -23,12 +22,6 @@ class WebViewCache: NSObject, ObservableObject, WKNavigationDelegate, WKUIDelega
     
     // Add currentServiceID property to track the active service
     private var currentServiceID: String? = nil
-    
-    // MARK: - Network reachability for auto-reload
-    private let networkMonitor = NWPathMonitor()
-    private let networkQueue = DispatchQueue(label: "WebViewCache.NetworkMonitor")
-    private var hasNetworkConnectivity: Bool = true
-    private var pendingReloadServiceIds: Set<String> = []
     
     private override init() {
         super.init()
@@ -57,9 +50,6 @@ class WebViewCache: NSObject, ObservableObject, WKNavigationDelegate, WKUIDelega
                                                selector: #selector(geminiAPIKeyChanged),
                                                name: NSNotification.Name("GeminiAPIKeyChanged"),
                                                object: nil)
-        
-        // Start network monitoring to recover from offline-at-login blank loads
-        startNetworkMonitoring()
     }
     
     // Handle direct Gemini API key changes
@@ -546,7 +536,6 @@ class WebViewCache: NSObject, ObservableObject, WKNavigationDelegate, WKUIDelega
         for timer in chatGPTTimers.values {
             timer.invalidate()
         }
-        networkMonitor.cancel()
     }
     
     // MARK: - Notification Handlers
@@ -987,7 +976,6 @@ class WebViewCache: NSObject, ObservableObject, WKNavigationDelegate, WKUIDelega
             if storedWebView === webView {
                 DispatchQueue.main.async {
                     self.loadingStates[serviceId] = false
-                    self.pendingReloadServiceIds.remove(serviceId)
                 }
                 
                 // Inject keyboard shortcut handlers
@@ -1236,63 +1224,10 @@ class WebViewCache: NSObject, ObservableObject, WKNavigationDelegate, WKUIDelega
             if storedWebView === webView {
                 DispatchQueue.main.async {
                     self.loadingStates[serviceId] = false
-                    self.markForReloadIfOffline(serviceId)
                 }
                 break
             }
         }
-    }
-    
-    // Handle provisional failures (common when offline at login)
-    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        for (serviceId, storedWebView) in webViews {
-            if storedWebView === webView {
-                DispatchQueue.main.async {
-                    self.loadingStates[serviceId] = false
-                    self.markForReloadIfOffline(serviceId)
-                }
-                break
-            }
-        }
-    }
-    
-    // MARK: - Network monitoring & reload helpers
-    private func startNetworkMonitoring() {
-        networkMonitor.pathUpdateHandler = { [weak self] path in
-            guard let self = self else { return }
-            let isNowOnline = (path.status == .satisfied)
-            let wasOnline = self.hasNetworkConnectivity
-            self.hasNetworkConnectivity = isNowOnline
-            if isNowOnline && !wasOnline {
-                let servicesToReload = self.pendingReloadServiceIds
-                self.pendingReloadServiceIds.removeAll()
-                DispatchQueue.main.async {
-                    for serviceId in servicesToReload {
-                        if let webView = self.webViews[serviceId], let url = webView.url ?? self.urlForServiceId(serviceId) {
-                            var request = URLRequest(url: url)
-                            request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
-                            webView.reload()
-                            webView.load(request)
-                            self.loadingStates[serviceId] = true
-                        }
-                    }
-                }
-            }
-        }
-        networkMonitor.start(queue: networkQueue)
-    }
-    
-    private func markForReloadIfOffline(_ serviceId: String) {
-        if !hasNetworkConnectivity {
-            pendingReloadServiceIds.insert(serviceId)
-        }
-    }
-    
-    private func urlForServiceId(_ serviceId: String) -> URL? {
-        if let service = aiServices.first(where: { $0.id.uuidString == serviceId }) {
-            return service.url
-        }
-        return nil
     }
     
     // MARK: - WKUIDelegate Methods

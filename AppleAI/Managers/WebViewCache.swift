@@ -2,7 +2,6 @@ import SwiftUI
 import WebKit
 import AppKit
 import AVFoundation
-import Network
 
 class WebViewCache: NSObject, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler {
     static let shared = WebViewCache()
@@ -34,12 +33,6 @@ class WebViewCache: NSObject, WKNavigationDelegate, WKUIDelegate, WKScriptMessag
     
     // Property for tracking user typing status - marked as @objc to ensure it's visible properly
     @objc dynamic var isUserTyping: Bool = false
-
-    // MARK: - Network reachability for auto-reload on login/offline
-    private let networkMonitor = NWPathMonitor()
-    private let networkQueue = DispatchQueue(label: "WebViewCache.NetworkMonitor")
-    private var hasNetworkConnectivity: Bool = true
-    private var pendingReloadServiceIds: Set<String> = []
     
     private init() {
         super.init()
@@ -56,15 +49,11 @@ class WebViewCache: NSObject, WKNavigationDelegate, WKUIDelegate, WKScriptMessag
         setupAppStateObservers()
         
         setupTypingTimer()
-
-        // Start monitoring network to recover from offline-at-boot blank views
-        startNetworkMonitoring()
     }
     
     deinit {
         // REMOVED: We don't need to stop the timer since we're not using it
         // stopMicrophoneMonitorTimer()
-        networkMonitor.cancel()
     }
     
     // Track voice chat usage state - simplified version
@@ -1861,48 +1850,6 @@ class WebViewCache: NSObject, WKNavigationDelegate, WKUIDelegate, WKScriptMessag
                     break
                 }
             }
-        }
-    }
-
-    // MARK: - Network monitoring & auto-reload
-    private func startNetworkMonitoring() {
-        networkMonitor.pathUpdateHandler = { [weak self] path in
-            guard let self = self else { return }
-            let isNowOnline = (path.status == .satisfied)
-            let wasOnline = self.hasNetworkConnectivity
-            self.hasNetworkConnectivity = isNowOnline
-            if isNowOnline && !wasOnline {
-                // When we regain connectivity, reload any services that previously failed
-                let servicesToReload = self.pendingReloadServiceIds
-                self.pendingReloadServiceIds.removeAll()
-                DispatchQueue.main.async {
-                    for serviceId in servicesToReload {
-                        if let webView = self.webViews[serviceId], let url = webView.url ?? self.urlForServiceId(serviceId) {
-                            // Force a reload ignoring cache
-                            var request = URLRequest(url: url)
-                            request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
-                            webView.reload() // Light reload first in case provisional state
-                            webView.load(request)
-                            self.loadingStates[serviceId] = true
-                        }
-                    }
-                }
-            }
-        }
-        networkMonitor.start(queue: networkQueue)
-    }
-    
-    private func urlForServiceId(_ serviceId: String) -> URL? {
-        // Find the AIService for this id to recover its original URL if webView.url is nil
-        if let service = aiServices.first(where: { $0.id.uuidString == serviceId }) {
-            return service.url
-        }
-        return nil
-    }
-    
-    private func markForReloadIfOffline(_ serviceId: String) {
-        if !hasNetworkConnectivity {
-            pendingReloadServiceIds.insert(serviceId)
         }
     }
 } 
