@@ -100,17 +100,19 @@ System overlay floating window that can be accessed from anywhere in Android.
 
 ## 🚀 Installation
 
-### From APK
-1. Download the latest APK from the [Releases](https://github.com/yourusername/ai-assistant-pro-android/releases) page
-2. Enable "Install from Unknown Sources" in Android settings
-3. Install the APK file
-4. Grant necessary permissions when prompted
+### 📱 Quick Install (Recommended)
+1. **Download APK**: Get the latest APK from [Releases](https://github.com/yourusername/ai-assistant-pro-android/releases/latest)
+2. **Enable Unknown Sources**: Settings → Security → Install from Unknown Sources
+3. **Install**: Tap the downloaded APK file and follow prompts
+4. **Launch**: Find "AI Assistant Pro" in your app drawer and enjoy!
 
-### From Source
-1. Clone this repository
-2. Open in Android Studio Arctic Fox or later
-3. Build and run the project
-4. Or generate a signed APK for distribution
+### 🛠️ Build from Source
+1. **Prerequisites**: Android Studio Arctic Fox+, JDK 11+, Android SDK API 26+
+2. **Clone**: `git clone https://github.com/yourusername/ai-assistant-pro-android.git`
+3. **Build**: `./gradlew assembleDebug` or open in Android Studio
+4. **Install**: `adb install app/build/outputs/apk/debug/app-debug.apk`
+
+See [BUILD_INSTRUCTIONS.md](BUILD_INSTRUCTIONS.md) for detailed build guide.
 
 ## 📋 Permissions
 
